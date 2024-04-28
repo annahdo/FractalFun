@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cvitc77t4ehkd"]
+
+[ext_resource type="Shader" path="res://fractals/Mandelbrot.gdshader" id="1_m7vwe"]
+
+[resource]
+shader = ExtResource("1_m7vwe")
+shader_parameter/center = null
+shader_parameter/fractal_scale = null

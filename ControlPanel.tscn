@@ -1,0 +1,54 @@
+[gd_scene load_steps=3 format=3 uid="uid://31d4xsvf5iop"]
+
+[ext_resource type="Script" path="res://ControlPanel.gd" id="2_3lc5l"]
+[ext_resource type="Theme" uid="uid://cjdvkdxacrcbp" path="res://new_theme.tres" id="2_tphfe"]
+
+[node name="ControlPanel" type="Panel"]
+offset_right = 250.0
+offset_bottom = 400.0
+theme = ExtResource("2_tphfe")
+script = ExtResource("2_3lc5l")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="QuitButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Quit"
+
+[node name="HideButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Hide"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="MandelbrotButton" type="Button" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Mandelbrot"
+
+[node name="JuliaButton" type="Button" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Julia"
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/HideButton" to="." method="_on_hide_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer2/MandelbrotButton" to="." method="_on_mandelbrot_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer2/JuliaButton" to="." method="_on_julia_button_pressed"]

@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dg1eqffbtcn5m"]
+
+[ext_resource type="Shader" path="res://fractals/Julia.gdshader" id="1_30q03"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_30q03")

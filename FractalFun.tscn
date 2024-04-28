@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://b5dgt3l6eqm1k"]
+
+[ext_resource type="Script" path="res://FractalFun.gd" id="1_tkwdi"]
+[ext_resource type="Shader" path="res://fractals/Mandelbrot.gdshader" id="2_kxuhg"]
+[ext_resource type="PackedScene" uid="uid://31d4xsvf5iop" path="res://ControlPanel.tscn" id="3_rid7g"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6a38w"]
+shader = ExtResource("2_kxuhg")
+shader_parameter/zoom = 0.36
+shader_parameter/position = Vector2(0, 0)
+shader_parameter/aspect_ratio = 1.778
+shader_parameter/power = 2.0
+shader_parameter/iterations = 50.0
+shader_parameter/divergence_threshhold = 4.0
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_fdrjw"]
+
+[node name="FractalFun" type="Node"]
+script = ExtResource("1_tkwdi")
+
+[node name="Display" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_6a38w")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CanvasTexture_fdrjw")
+
+[node name="ControlPanel" parent="." instance=ExtResource("3_rid7g")]

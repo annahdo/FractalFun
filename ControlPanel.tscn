@@ -35,6 +35,18 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Hide"
 
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="FullScreeenLabel" type="Label" parent="VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Full Screen"
+
+[node name="FullScreenButton" type="CheckButton" parent="VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 8
+
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 
@@ -48,7 +60,162 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Julia"
 
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+text = "Iterations"
+
+[node name="IterSlider" type="HSlider" parent="VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 5.0
+max_value = 500.0
+value = 5.0
+exp_edit = true
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer5"]
+layout_mode = 2
+text = "Exponent"
+
+[node name="ExponentSlider" type="HSlider" parent="VBoxContainer/HBoxContainer5"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 2.0
+max_value = 20.0
+value = 2.0
+exp_edit = true
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ColorBox" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/ColorBox"]
+layout_mode = 2
+text = "Color settings"
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/ColorBox"]
+layout_mode = 2
+size_flags_vertical = 3
+columns = 3
+
+[node name="ColorLabel" type="Label" parent="VBoxContainer/ColorBox/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Color"
+horizontal_alignment = 1
+
+[node name="FrequencyLabel" type="Label" parent="VBoxContainer/ColorBox/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Frequency"
+horizontal_alignment = 1
+
+[node name="PhaseLabel" type="Label" parent="VBoxContainer/ColorBox/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Phase"
+horizontal_alignment = 1
+
+[node name="RedLabel" type="Label" parent="VBoxContainer/ColorBox/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "R"
+horizontal_alignment = 1
+
+[node name="RedFreqSlider" type="HSlider" parent="VBoxContainer/ColorBox/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 50.0
+step = 0.1
+value = 1.0
+exp_edit = true
+
+[node name="RedPhaseSlider" type="HSlider" parent="VBoxContainer/ColorBox/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 6.5
+step = 0.1
+
+[node name="GreenLabel" type="Label" parent="VBoxContainer/ColorBox/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "G"
+horizontal_alignment = 1
+
+[node name="GreenFreqSlider" type="HSlider" parent="VBoxContainer/ColorBox/GridContainer"]
+layout_mode = 2
+min_value = 1.0
+max_value = 50.0
+step = 0.1
+value = 1.0
+exp_edit = true
+
+[node name="GreenPhaseSlider" type="HSlider" parent="VBoxContainer/ColorBox/GridContainer"]
+layout_mode = 2
+max_value = 6.5
+step = 0.1
+
+[node name="BlueLabel" type="Label" parent="VBoxContainer/ColorBox/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "B"
+horizontal_alignment = 1
+
+[node name="BlueFreqSlider" type="HSlider" parent="VBoxContainer/ColorBox/GridContainer"]
+layout_mode = 2
+min_value = 1.0
+max_value = 50.0
+step = 0.1
+value = 1.0
+exp_edit = true
+
+[node name="BluePhaseSlider" type="HSlider" parent="VBoxContainer/ColorBox/GridContainer"]
+layout_mode = 2
+max_value = 6.5
+step = 0.1
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="MaxZoomMessage" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="TextEdit" type="TextEdit" parent="VBoxContainer/MaxZoomMessage"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 12
+text = "Fractals are infinite, but floating point precision is not :(
+You have reached the maximum zoom."
+editable = false
+context_menu_enabled = false
+shortcut_keys_enabled = false
+selecting_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+virtual_keyboard_enabled = false
+middle_mouse_paste_enabled = false
+wrap_mode = 1
+scroll_fit_content_height = true
+
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/HideButton" to="." method="_on_hide_button_pressed"]
+[connection signal="toggled" from="VBoxContainer/HBoxContainer3/FullScreenButton" to="." method="_on_full_screen_button_toggled"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer2/MandelbrotButton" to="." method="_on_mandelbrot_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer2/JuliaButton" to="." method="_on_julia_button_pressed"]
+[connection signal="value_changed" from="VBoxContainer/HBoxContainer4/IterSlider" to="." method="_on_iter_slider_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/HBoxContainer5/ExponentSlider" to="." method="_on_exponent_slider_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/ColorBox/GridContainer/RedFreqSlider" to="." method="_on_red_freq_slider_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/ColorBox/GridContainer/RedPhaseSlider" to="." method="_on_red_phase_slider_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/ColorBox/GridContainer/GreenFreqSlider" to="." method="_on_green_freq_slider_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/ColorBox/GridContainer/GreenPhaseSlider" to="." method="_on_green_phase_slider_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/ColorBox/GridContainer/BlueFreqSlider" to="." method="_on_blue_freq_slider_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/ColorBox/GridContainer/BluePhaseSlider" to="." method="_on_blue_phase_slider_value_changed"]

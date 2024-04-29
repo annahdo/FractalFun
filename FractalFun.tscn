@@ -6,6 +6,12 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6a38w"]
 shader = ExtResource("2_kxuhg")
+shader_parameter/red_freq = 1.6615
+shader_parameter/green_freq = 1.246
+shader_parameter/blue_freq = 0.831
+shader_parameter/red_phase = 6.3
+shader_parameter/green_phase = 6.3
+shader_parameter/blue_phase = 6.3
 shader_parameter/zoom = 0.36
 shader_parameter/position = Vector2(0, 0)
 shader_parameter/aspect_ratio = 1.778

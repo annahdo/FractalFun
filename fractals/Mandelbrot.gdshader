@@ -1,5 +1,15 @@
 shader_type canvas_item;
 
+#include "res://fractals/Color.gdshaderinc"
+
+// color values
+uniform float red_freq=1.6615;
+uniform float green_freq=1.246;
+uniform float blue_freq=0.831;
+uniform float red_phase=0;
+uniform float green_phase=0;
+uniform float blue_phase=0;
+
 uniform highp float zoom = 0.36;
 uniform highp vec2  position = vec2(0.75, 0.0);
 uniform float aspect_ratio = 1.778;
@@ -7,9 +17,6 @@ uniform float power = 2.0;
 uniform float iterations = 50.0;
 uniform float divergence_threshhold = 4.0;
 
-vec4 getColor(float i) {
-	return vec4(i, i, i, 1.0);
-}
 
 
 void fragment() {
@@ -32,7 +39,12 @@ void fragment() {
 	if (i >= iterations) 
 		color = vec4(0.0, 0.0, 0.0, 1.0);
 	else { 
-		color = getColor(i/iterations);
+		if(power>1.) {
+			 i -= log(log(length(z))) / log(power);	
+		}
+		color = getColor(i/iterations, red_freq, red_phase, 
+		green_freq, green_phase, 
+		blue_freq, blue_phase);
 	}
 		
 	COLOR = color;

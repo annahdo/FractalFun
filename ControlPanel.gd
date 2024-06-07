@@ -9,6 +9,7 @@ func _ready():
 
 
 
+
 func _process(delta):
 	# hide control panel
 	if Input.is_action_just_released("KEY_ESCAPE"):
@@ -34,7 +35,10 @@ func _on_julia_button_pressed():
 func _on_mandelbrot_button_pressed():
 	get_parent().set_fractal('Mandelbrot')
 
-
+func _on_ship_button_pressed():
+	get_parent().set_fractal('Ship')
+	
+	
 func _on_full_screen_button_toggled(toggled_on):
 	if DisplayServer.window_get_mode() != DisplayServer.WINDOW_MODE_FULLSCREEN:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
@@ -70,3 +74,4 @@ func _on_blue_freq_slider_value_changed(value):
 
 func _on_blue_phase_slider_value_changed(value):
 	get_parent().set_shader_param('blue_phase', value) 
+

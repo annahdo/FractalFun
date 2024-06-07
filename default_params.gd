@@ -13,7 +13,7 @@ func _init():
 		'blue_phase': 0
 	}
 	
-	default_shader_params['Julia']= {
+	default_shader_params['Julia'] = {
 		"zoom": 0.5,
 		"position": Vector2(0.0, 0.0),
 		"aspect_ratio": 2,
@@ -21,9 +21,16 @@ func _init():
 		"power": 2.0,
 		"iterations": 50
 	}
-	default_shader_params['Mandelbrot']= {
+	default_shader_params['Mandelbrot'] = {
 		"zoom": 0.36,
 		"position": Vector2(0.75, 0.0),
+		"aspect_ratio": 2,
+		"power": 2.0,
+		"iterations": 50
+	}
+	default_shader_params['Ship'] = {
+		"zoom": 9.197,
+		"position": Vector2(1.7629, -0.03297),
 		"aspect_ratio": 2,
 		"power": 2.0,
 		"iterations": 50
@@ -33,9 +40,9 @@ func set_default_shader_params(node, fractal_type) -> void:
 	# Define a dictionary to hold default shader parameters
 	var shader_params = default_shader_params[fractal_type]
 	for param in shader_params.keys():
-		node.get_node('Display').material.set_shader_parameter(param, shader_params[param])
+		node.display.material.set_shader_parameter(param, shader_params[param])
 	for param in default_color_params.keys():
-		node.get_node('Display').material.set_shader_parameter(param, default_color_params[param])
+		node.display.material.set_shader_parameter(param, default_color_params[param])
 	
 	# adjust ControlPanel elements to default parameters
 	var control_panel = node.get_node('ControlPanel')

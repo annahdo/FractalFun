@@ -1,36 +1,52 @@
 [gd_scene load_steps=6 format=3 uid="uid://b5dgt3l6eqm1k"]
 
 [ext_resource type="Script" path="res://FractalFun.gd" id="1_tkwdi"]
-[ext_resource type="Shader" path="res://fractals/Mandelbrot.gdshader" id="2_kxuhg"]
 [ext_resource type="PackedScene" uid="uid://31d4xsvf5iop" path="res://ControlPanel.tscn" id="3_rid7g"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6a38w"]
-shader = ExtResource("2_kxuhg")
-shader_parameter/red_freq = 1.6615
-shader_parameter/green_freq = 1.246
-shader_parameter/blue_freq = 0.831
-shader_parameter/red_phase = 6.3
-shader_parameter/green_phase = 6.3
-shader_parameter/blue_phase = 6.3
-shader_parameter/zoom = 0.36
-shader_parameter/position = Vector2(0, 0)
-shader_parameter/aspect_ratio = 1.778
-shader_parameter/power = 2.0
-shader_parameter/iterations = 50.0
-shader_parameter/divergence_threshhold = 4.0
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dom2i"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_fdrjw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ft70t"]
 
 [node name="FractalFun" type="Node"]
 script = ExtResource("1_tkwdi")
 
-[node name="Display" type="TextureRect" parent="."]
-material = SubResource("ShaderMaterial_6a38w")
+[node name="ViewportContainer" type="SubViewportContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+
+[node name="Viewport" type="SubViewport" parent="ViewportContainer"]
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="Display" type="TextureRect" parent="ViewportContainer/Viewport"]
+material = SubResource("ShaderMaterial_dom2i")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 texture = SubResource("CanvasTexture_fdrjw")
 
 [node name="ControlPanel" parent="." instance=ExtResource("3_rid7g")]
+
+[node name="ProjectorWindow" type="Window" parent="."]
+visible = false
+
+[node name="ProjectorDisplay" type="TextureRect" parent="ProjectorWindow"]
+material = SubResource("ShaderMaterial_ft70t")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

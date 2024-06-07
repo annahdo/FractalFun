@@ -60,6 +60,11 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Julia"
 
+[node name="ShipButton" type="Button" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Ship"
+
 [node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 
@@ -211,6 +216,7 @@ scroll_fit_content_height = true
 [connection signal="toggled" from="VBoxContainer/HBoxContainer3/FullScreenButton" to="." method="_on_full_screen_button_toggled"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer2/MandelbrotButton" to="." method="_on_mandelbrot_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer2/JuliaButton" to="." method="_on_julia_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer2/ShipButton" to="." method="_on_ship_button_pressed"]
 [connection signal="value_changed" from="VBoxContainer/HBoxContainer4/IterSlider" to="." method="_on_iter_slider_value_changed"]
 [connection signal="value_changed" from="VBoxContainer/HBoxContainer5/ExponentSlider" to="." method="_on_exponent_slider_value_changed"]
 [connection signal="value_changed" from="VBoxContainer/ColorBox/GridContainer/RedFreqSlider" to="." method="_on_red_freq_slider_value_changed"]

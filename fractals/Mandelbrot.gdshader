@@ -16,7 +16,7 @@ uniform float aspect_ratio = 1.778;
 uniform float power = 2.0;
 uniform float iterations = 50.0;
 uniform float divergence_threshhold = 4.0;
-
+uniform highp vec2 seed = vec2(0,0);
 
 
 void fragment() {
@@ -26,7 +26,7 @@ void fragment() {
 	c.x = aspect_ratio * (UV.x - 0.5) / zoom - position.x;
 	c.y = (UV.y - 0.5) / zoom + position.y;
 
-	highp vec2 z = c;
+	highp vec2 z = seed;
 		
 	if(power==2.0)
 		while( i<iterations && length(z) <= divergence_threshhold ) { 

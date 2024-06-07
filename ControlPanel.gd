@@ -7,9 +7,6 @@ func _ready():
 	call_deferred("_on_julia_button_pressed")
 	find_child('MaxZoomMessage').visible = false
 
-
-
-
 func _process(delta):
 	# hide control panel
 	if Input.is_action_just_released("KEY_ESCAPE"):

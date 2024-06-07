@@ -47,6 +47,8 @@ func _process(delta) -> void:
 	control_iterations()
 	# color
 	control_color()
+	# fractal selection
+	control_fractal()
 
 		
 	var val:float
@@ -125,6 +127,14 @@ func set_shader_param(param, value):
 ######################
 ## helper functions ##
 ######################
+func control_fractal() -> void:
+	if Input.is_action_just_pressed("PAD_Y"):
+		if current_fractal=='Julia':
+			$ControlPanel.find_child('MandelbrotButton').emit_signal("pressed")
+		elif current_fractal=='Mandelbrot':
+			$ControlPanel.find_child('ShipButton').emit_signal("pressed")
+		elif current_fractal=='Ship':
+			$ControlPanel.find_child('JuliaButton').emit_signal("pressed")
 # control color with game controller
 func control_color() -> void:
 	# update blue
@@ -194,11 +204,11 @@ func control_seed() -> void:
 	var screen_x = get_viewport().get_visible_rect().size.x
 	var zoom = display.material.get_shader_parameter("zoom")
 
-	if current_fractal == 'Julia':
-		var seed_move = joy_0
-		var seed:Vector2 = display.material.get_shader_parameter("seed")
-		seed += seed_move/zoom/screen_x
-		display.material.set_shader_parameter("seed", seed)
+	# if current_fractal == 'Julia':
+	var seed_move = joy_0
+	var seed:Vector2 = display.material.get_shader_parameter("seed")
+	seed += seed_move/zoom/screen_x
+	display.material.set_shader_parameter("seed", seed)
 		
 # control zoom with game controller
 func control_zoom() -> void:

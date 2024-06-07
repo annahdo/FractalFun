@@ -26,14 +26,16 @@ func _init():
 		"position": Vector2(0.75, 0.0),
 		"aspect_ratio": 2,
 		"power": 2.0,
-		"iterations": 50
+		"iterations": 50,
+		"seed": Vector2(0.0, 0.0)
 	}
 	default_shader_params['Ship'] = {
 		"zoom": 9.197,
 		"position": Vector2(1.7629, -0.03297),
 		"aspect_ratio": 2,
 		"power": 2.0,
-		"iterations": 50
+		"iterations": 50,
+		"seed": Vector2(0.0, 0.0)
 	}
 
 func set_default_shader_params(node, fractal_type) -> void:

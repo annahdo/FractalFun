@@ -45,6 +45,8 @@ func _process(delta) -> void:
 	control_zoom()
 	# iterations
 	control_iterations()
+	# color
+	control_color()
 
 		
 	var val:float
@@ -123,7 +125,58 @@ func set_shader_param(param, value):
 ######################
 ## helper functions ##
 ######################
+# control color with game controller
+func control_color() -> void:
+	# update blue
+	if Input.is_action_pressed("PAD_X"):
+		var freq_slider = $ControlPanel.find_child('BlueFreqSlider')
+		var phase_slider = $ControlPanel.find_child('BluePhaseSlider')
+		update_color_freq(freq_slider)
+		update_color_phase(phase_slider)
+	# update green
+	if Input.is_action_pressed("PAD_A"):
+		var freq_slider = $ControlPanel.find_child('GreenFreqSlider')
+		var phase_slider = $ControlPanel.find_child('GreenPhaseSlider')
+		update_color_freq(freq_slider)
+		update_color_phase(phase_slider)
+	# update red
+	if Input.is_action_pressed("PAD_B"):
+		var freq_slider = $ControlPanel.find_child('RedFreqSlider')
+		var phase_slider = $ControlPanel.find_child('RedPhaseSlider')
+		update_color_freq(freq_slider)
+		update_color_phase(phase_slider)
 
+func update_color_freq(freq_slider):
+	var cross_right_left = Input.get_axis("CROSS_RIGHT", "CROSS_LEFT")
+	var max_freq = freq_slider.max_value
+	var min_freq = freq_slider.min_value
+	var curr_freq = freq_slider.value
+	var step = freq_slider.step
+	var precision = get_precision(step)
+	if cross_right_left>0:
+		var factor = 1 + step
+		curr_freq = scale_exponentially(min_freq, max_freq, curr_freq, factor)
+		freq_slider.set_value(floor_to_precision(curr_freq, precision))
+	elif cross_right_left<0:
+		var factor = 1 - step
+		curr_freq = scale_exponentially(min_freq, max_freq, curr_freq, factor)
+		freq_slider.set_value(ceil_to_precision(curr_freq, precision))
+	
+func update_color_phase(phase_slider):
+	var cross_up_down = Input.get_axis("CROSS_UP", "CROSS_DOWN")
+	var max_phase = phase_slider.max_value
+	var min_phase = phase_slider.min_value
+	var curr_phase = phase_slider.value
+	var step = phase_slider.step
+	var precision = get_precision(step)
+	if cross_up_down<0:
+		curr_phase = fmod(curr_phase+step, 2*PI)
+		phase_slider.set_value(ceil_to_precision(curr_phase, precision))
+	elif cross_up_down>0:
+		curr_phase = scale_linearly(min_phase, max_phase, curr_phase, -step)
+		phase_slider.set_value(floor_to_precision(curr_phase, precision))
+	
+	
 # control position with game controller
 func control_position() -> void:
 	var joy_1 = Input.get_vector("JOY_1_RIGHT", "JOY_1_LEFT", "JOY_1_UP", "JOY_1_DOWN")
@@ -215,5 +268,31 @@ func scale_exponentially(min_value, max_value, value, factor):
 
 	return new_value
 
+func scale_linearly(min_value, max_value, value, adjustment):
+	# Ensure value is within bounds
+	value = max(min_value, min(max_value, value))
+	# Adjust the value
+	value += adjustment
+	# Ensure the adjusted value is within bounds
+	value = max(min_value, min(max_value, value))
+	return value
 
+func floor_to_precision(value, precision):
+	# Calculate the factor based on the desired precision
+	var factor = pow(10, precision)
+	# Apply the flooring and return the result
+	return floor(value * factor) / factor
 
+func ceil_to_precision(value, precision):
+	# Calculate the factor based on the desired precision
+	var factor = pow(10, precision)
+	# Apply the ceiling and return the result
+	return ceil(value * factor) / factor
+
+func get_precision(value):
+	if value == 0:
+		return 0
+	
+	return abs(floor(log10(value)))
+
+func log10(value): return log(value) / log(10)

@@ -1,0 +1,18 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://c8wkngomli8ue"]
+
+[ext_resource type="Shader" path="res://fractals/BurningShip.gdshader" id="1_mpvwo"]
+
+[resource]
+shader = ExtResource("1_mpvwo")
+shader_parameter/red_freq = 1.6615
+shader_parameter/green_freq = 1.246
+shader_parameter/blue_freq = 0.831
+shader_parameter/red_phase = 0.0
+shader_parameter/green_phase = 0.0
+shader_parameter/blue_phase = 0.0
+shader_parameter/zoom = 0.36
+shader_parameter/position = Vector2(0.75, 0)
+shader_parameter/aspect_ratio = 1.778
+shader_parameter/power = 2.0
+shader_parameter/iterations = 50.0
+shader_parameter/divergence_threshhold = 4.0

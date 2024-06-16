@@ -9,6 +9,7 @@ uniform float blue_freq=0.831;
 uniform float red_phase=0;
 uniform float green_phase=0;
 uniform float blue_phase=0;
+uniform int smoothing = 1;
 
 uniform highp float zoom = 0.36;
 uniform highp vec2  position = vec2(0.75, 0.0);
@@ -39,8 +40,8 @@ void fragment() {
 	if (i >= iterations) 
 		color = vec4(0.0, 0.0, 0.0, 1.0);
 	else { 
-		if(power>1.) {
-			 i -= log(log(length(z))) / log(power);	
+		if(smoothing==1 && power>1.){
+			i -= log(log(length(z))) / log(power);		
 		}
 		color = getColor(i/iterations, red_freq, red_phase, 
 		green_freq, green_phase, 

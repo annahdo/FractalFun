@@ -10,7 +10,8 @@ func _init():
 		'blue_freq': 0.831,
 		'red_phase': 0,
 		'green_phase': 0,
-		'blue_phase': 0
+		'blue_phase': 0,
+		'smoothing': 1
 	}
 	
 	default_shader_params['Julia'] = {

@@ -15,7 +15,11 @@ const MIN_ZOOM = 0.1
 # TODO it does seem worse for Julia though, so maybe look into this
 const MAX_ZOOM = 100.0 
 var display
+var video_player
 var projector_display
+var timer
+const time_to_video = 1
+const video_folder = "res://videos/" # Path to your video folder
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	default_params = DefaultParams.new()
@@ -23,6 +27,13 @@ func _ready() -> void:
 	projector_display = $ProjectorWindow/ProjectorDisplay
 	projector_display.material = display.material
 	projector_display.texture= display.texture
+	video_player = $ViewportContainer/Viewport/VideoStreamPlayer
+	video_player.visible=false
+	timer = $Timer
+	timer.start(time_to_video)
+	# Set the Master bus volume to 0 to disable all audio
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), -80)
+
 
 	
 	
@@ -35,8 +46,6 @@ func _process(delta) -> void:
 	var mouse_pos = get_rel_mouse_pos()
 	
 	# Game controller input
-	var cross = Input.get_vector("CROSS_RIGHT", "CROSS_LEFT", "CROSS_UP", "CROSS_DOWN")
-
 	# update seed
 	control_seed()
 	# update position
@@ -49,6 +58,10 @@ func _process(delta) -> void:
 	control_color()
 	# fractal selection
 	control_fractal()
+	# video
+	control_video()
+	# smoothing
+	control_smoothing()
 
 		
 	var val:float
@@ -57,6 +70,7 @@ func _process(delta) -> void:
 		update_zoom(zoom * 1.1)
 		fractal_pos -= mouse_pos/zoom/10
 		display.material.set_shader_parameter("position", fractal_pos)	
+		
 	# zoom out
 	elif Input.is_action_just_pressed("SCROLL_UP"):
 		# in order to return to the same point when zooming in and out we need to
@@ -64,8 +78,6 @@ func _process(delta) -> void:
 		fractal_pos += mouse_pos/zoom/10
 		display.material.set_shader_parameter("position", fractal_pos)
 		update_zoom(zoom/1.1)
-		#print('zoom: ',  display.material.get_shader_parameter("zoom"))
-		#print('pos: ', display.material.get_shader_parameter("position"))
 		
 	elif Input.is_action_just_pressed("MOUSE_LEFT"):
 		if not mouse_on_control_panel():
@@ -82,6 +94,9 @@ func _process(delta) -> void:
 	update_aspect_ratio() 
 
 func _input(event) -> void:
+	if event is InputEvent:
+		if !Input.is_action_just_released("START") and !Input.is_action_just_pressed("START"):
+			stop_video()
 	if event is InputEventMouseMotion:
 		if MOUSE_DRAG:
 			var move:Vector2 = Vector2(event.relative.x, -event.relative.y) 
@@ -101,7 +116,6 @@ func _input(event) -> void:
 
 func set_fractal(fractal_type) -> void:
 	current_fractal = fractal_type
-	print(fractal_type)
 	if fractal_type == 'Julia':
 		display.material.shader = JULIA
 	elif fractal_type == 'Mandelbrot':
@@ -127,6 +141,53 @@ func set_shader_param(param, value):
 ######################
 ## helper functions ##
 ######################
+func control_smoothing() -> void:
+	if Input.is_action_just_pressed("BACK"):
+		var smoothing = display.material.get_shader_parameter("smoothing")
+		display.material.set_shader_parameter("smoothing", !smoothing)
+	
+func select_video() -> String:
+	var video_files = []
+	var dir = DirAccess.open(video_folder)
+
+	if dir:
+		dir.list_dir_begin()
+		while true:
+			var file_name = dir.get_next()
+			if file_name == "":
+				break
+			if !dir.current_is_dir() and file_name.ends_with(".ogv"): # Adjust extension as needed
+				video_files.append(video_folder + file_name)
+		dir.list_dir_end()
+	if video_files.size() > 0:
+		var random_index = randi() % video_files.size()
+		var selected_video_path = video_files[random_index]
+		return selected_video_path
+		
+	return ""
+	
+func start_video() -> void:
+	# select random video from video folder
+	var video_path = select_video()
+	if video_path != "":
+		var video_stream = VideoStreamTheora.new() # Adjust if using a different format
+		video_stream.set_file(video_path)
+		video_player.stream = video_stream
+		video_player.visible=true
+		video_player.play()
+	else:
+		print("No video files found in the specified folder.")
+func stop_video() -> void:
+	video_player.stop()
+	video_player.visible=false
+	timer.start(time_to_video)
+func control_video() -> void:
+	if Input.is_action_just_pressed("START"):
+		if video_player.is_playing():
+			stop_video()
+		else:
+			start_video()
+
 func control_fractal() -> void:
 	if Input.is_action_just_pressed("PAD_Y"):
 		if current_fractal=='Julia':
@@ -180,12 +241,16 @@ func update_color_phase(phase_slider):
 	var step = phase_slider.step
 	var precision = get_precision(step)
 	if cross_up_down<0:
+		step = step*5
 		curr_phase = fmod(curr_phase+step, 2*PI)
 		phase_slider.set_value(ceil_to_precision(curr_phase, precision))
 	elif cross_up_down>0:
+		step = step*5
 		curr_phase = scale_linearly(min_phase, max_phase, curr_phase, -step)
 		phase_slider.set_value(floor_to_precision(curr_phase, precision))
-	
+	else:
+		curr_phase = fmod(curr_phase+step, 2*PI)
+		phase_slider.set_value(ceil_to_precision(curr_phase, precision))
 	
 # control position with game controller
 func control_position() -> void:
@@ -260,7 +325,7 @@ func update_zoom(zoom) -> void:
 		$ControlPanel.find_child('MaxZoomMessage').visible = false
 	zoom = max(zoom, MIN_ZOOM)
 	zoom = min(zoom, MAX_ZOOM)
-	print(zoom)
+	# print(zoom)
 	display.material.set_shader_parameter("zoom", zoom)
 	
 func scale_exponentially(min_value, max_value, value, factor):
@@ -306,3 +371,8 @@ func get_precision(value):
 	return abs(floor(log10(value)))
 
 func log10(value): return log(value) / log(10)
+
+
+func _on_timer_timeout():
+	if not video_player.is_playing():
+		start_video()

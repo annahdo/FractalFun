@@ -77,6 +77,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 min_value = 5.0
 max_value = 500.0
+step = 0.5
 value = 5.0
 exp_edit = true
 
@@ -148,7 +149,7 @@ exp_edit = true
 layout_mode = 2
 size_flags_horizontal = 3
 max_value = 6.5
-step = 0.05
+step = 0.01
 
 [node name="GreenLabel" type="Label" parent="VBoxContainer/ColorBox/GridContainer"]
 layout_mode = 2
@@ -167,7 +168,7 @@ exp_edit = true
 [node name="GreenPhaseSlider" type="HSlider" parent="VBoxContainer/ColorBox/GridContainer"]
 layout_mode = 2
 max_value = 6.5
-step = 0.05
+step = 0.01
 
 [node name="BlueLabel" type="Label" parent="VBoxContainer/ColorBox/GridContainer"]
 layout_mode = 2
@@ -186,7 +187,7 @@ exp_edit = true
 [node name="BluePhaseSlider" type="HSlider" parent="VBoxContainer/ColorBox/GridContainer"]
 layout_mode = 2
 max_value = 6.5
-step = 0.05
+step = 0.01
 
 [node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2

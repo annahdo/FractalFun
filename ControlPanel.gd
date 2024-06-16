@@ -3,9 +3,11 @@ extends Panel
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print('ready')
 	call_deferred("_on_julia_button_pressed")
 	find_child('MaxZoomMessage').visible = false
+	var button = find_child('FullScreenButton')
+	button.button_pressed = !button.button_pressed
+	_on_hide_button_pressed()
 
 func _process(delta):
 	# hide control panel

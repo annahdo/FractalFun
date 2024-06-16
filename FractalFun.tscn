@@ -38,6 +38,17 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = SubResource("CanvasTexture_fdrjw")
 
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="ViewportContainer/Viewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+expand = true
+loop = true
+
 [node name="ControlPanel" parent="." instance=ExtResource("3_rid7g")]
 
 [node name="ProjectorWindow" type="Window" parent="."]
@@ -50,3 +61,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

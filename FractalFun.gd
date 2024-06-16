@@ -18,7 +18,7 @@ var display
 var video_player
 var projector_display
 var timer
-const time_to_video = 1
+const time_to_video = 120
 const video_folder = "res://videos/" # Path to your video folder
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
